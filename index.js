@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 5000
 const app = express();
-//const routes = require('./routes')
-//const errorController = require('./controllers/404');
+const routes = require('./routes')
+const errorController = require('./controllers/404');
 const mongoose = require('mongoose'); 
 const cors = require('cors');
 //const User = require('./models/user');
@@ -35,13 +35,13 @@ const options = {
  //   .catch(err => console.log(err));
 //  })
   
-  //app.use
-  //app.use(express.static(path.join(__dirname, 'public')));
-  //app.set('views', path.join(__dirname, 'views'));
+  app.use
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
   //app.use(bodyParser({ extended: false })); // For parsing the body of a POST
-  //app.use('/', routes);
-  //app.use(errorController.get404);
+  app.use('/', routes);
+  app.use(errorController.get404);
   
   mongoose
     .connect(MONGODB_URL, options)

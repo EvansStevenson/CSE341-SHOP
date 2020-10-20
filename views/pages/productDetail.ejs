@@ -8,15 +8,15 @@
 </head>
 <body>
   <ul>
-    <li><a href="./">Home</a></li>
-    <li><a href="./shop">Armory</a></li>
+    <li><a href="../">Home</a></li>
+    <li><a class="active" href="../shop">Armory</a></li>
 
     <% if (!isAuth){ %> 
-    <li><a href="./auth">Sign In</a></li>
+    <li><a href="../auth">Sign In</a></li>
     <% } %> 
 
     <% if (isAuth){ %> 
-    <li><a class="active" href="./admin">Admin</a></li>
+    <li><a href="../admin">Admin</a></li>
     <li><a href="">Cart</a></li>
    <form action="auth/logout" method="POST">
      <button type="submit">Logout</button>

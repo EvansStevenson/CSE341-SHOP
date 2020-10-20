@@ -6,9 +6,15 @@ const app = express();
 const routes = require('./routes')
 const errorController = require('./controllers/404');
 const mongoose = require('mongoose');
+const session = require("express-session");
+const mongodbStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const User = require('./models/user');
-
+const mongodbURI = 'mongodb+srv://Evans:evanspassword@mainshop.xcqkz.mongodb.net/localShop?retryWrites=true&w=majority';
+const store = new mongodbStore({
+  uri: mongodbURI,
+  collection: 'sessions'
+});
 
 //cennect to heroku
 const corsOptions = {
@@ -24,18 +30,25 @@ const options = {
   useFindAndModify: false,
   family: 4
 };
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://Evans:evanspassword@mainshop.xcqkz.mongodb.net/localShop?retryWrites=true&w=majority";
+const MONGODB_URL = process.env.MONGODB_URL || mongodbURI;
 
-app.use((req, res, next) => {
-  User.findById('5f8cf96bbc8ea10630743d16')
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => console.log(err));
-})
 
 app.use
+app.use(session({secret:'my secret', resave: false, saveUninitialized: false, store: store}));
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+  .then(user => {
+   req.user = user;
+   next();
+  })
+  .catch(err => console.log(err));
+});
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -46,18 +59,6 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_URL, options)
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Evans',
-          email: 'evanstevenson860@gmail.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    })
     app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   })
   .catch(err => {

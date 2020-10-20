@@ -7,6 +7,7 @@ exports.getProducts = (req, res) => {
                 pageTitle: 'Products',
                 path: '/products',
                 prods: products,
+                isAuth: req.session.isLoggedIn
             });
         })
         .catch(err => { console.log(err); })
@@ -33,7 +34,8 @@ exports.getInfo = (req, res) => {
                 itemP: price,
                 itemD: description,
                 itemI: imgUrl,
-                ID: id
+                ID: id,
+                isAuth: req.session.isLoggedIn
             });
         })
         .catch(err => console.log(err));

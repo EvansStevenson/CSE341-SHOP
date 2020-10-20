@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
     <ul>
-        <li><a class="active" href="./">Home</a></li>
+        <li><a href="./">Home</a></li>
         <li><a href="./shop">Armory</a></li>
-
+    
         <% if (!isAuth){ %> 
-        <li><a href="./auth">Sign In</a></li>
+        <li><a class="active" href="./auth">Sign In</a></li>
         <% } %> 
-
+    
         <% if (isAuth){ %> 
         <li><a href="./admin">Admin</a></li>
         <li><a href="">Cart</a></li>
@@ -25,12 +25,15 @@
       </ul>
       
       <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-        <h1>Hyrule Armory</h1>
-        <a href=""><img src="/img/sword.png" width="auto" height="200"></a>
-        <a href=""><img src="/img/bow.png" width="auto" height="200"></a>
-        <a href=""><img src="/img/shield.png" width="auto" height="200"></a>
-        <a href=""><img src="/img/armor.png" width="auto" height="200"></a>
-        
-      </div>
+        <form action="/auth/signup/submit" method="POST">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+            <label for="password">Confirm Password</label>
+            <input type="password" name="ConfirmPassword" id="ConfirmPassword">
+            <button type="submit">Signup</button>
+        </form>
+     </div>
 </body>
 </html>

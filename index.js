@@ -15,6 +15,9 @@ const store = new mongodbStore({
   uri: mongodbURI,
   collection: 'sessions'
 });
+const csrf = require('csurf');
+const csrfProtection = csrf();
+const flash = require('connect-flash');
 
 //cennect to heroku
 const corsOptions = {
@@ -32,9 +35,17 @@ const options = {
 };
 const MONGODB_URL = process.env.MONGODB_URL || mongodbURI;
 
-
 app.use
+app.use(bodyParser.urlencoded({ extended: false })); // For parsing the body of a POST
 app.use(session({secret:'my secret', resave: false, saveUninitialized: false, store: store}));
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.isAuth = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -49,10 +60,11 @@ app.use((req, res, next) => {
 });
 
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(bodyParser({ extended: false })); // For parsing the body of a POST
+
 app.use('/', routes);
 app.use(errorController.get404);
 

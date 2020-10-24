@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../shop">Armory</a></li>
+    
+        <% if (!isAuth){ %> 
+        <li><a href="../auth">Sign In</a></li>
+        <% } %> 
+    
+        <% if (isAuth){ %> 
+        <li><a href="../admin">Admin</a></li>
+        <li><a class="active" href="../shop/cart">Cart</a></li>
+        <li><a href="../shop/orders">Orders</a></li>
+       <form action="../auth/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+         <button type="submit">Logout</button>
+       </form>
+        <% } %> 
+      </ul>
+    
+    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+        <h1>Your Cart</h1>
+        <% cartItems.forEach (cartItems => { %>
+        <a href="../shop/<%= cartItems.productId._id %>" style="text-decoration: none;">
+            <div>
+                
+                <h1><%= cartItems.productId.title %></h1>
+                <img src="<%= cartItems.productId.imgUrl %>" style='max-width: 150px'>
+                <p>$<%= cartItems.productId.price %></p>
+                <p>Quantity: <%= cartItems.quantity %></p>
+                <form action="/shop/cart/delete" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="btn" type="submit">Remove from Cart</button>
+                    <input type="hidden" name="productId" value="<%= cartItems.productId._id %>">
+                </form>
+            </div>
+        </a>
+        <% }) %>
+        <form action="/shop/cart/order" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit">Order Now</button>
+        </form>
+    </div>
+    
+</body>
+</html>
+

@@ -1,16 +1,12 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res) => {
-  if (!req.session.isLoggedIn){
-    return res.redirect('/auth')
-  }
   Product.find()
   .then(products => {
     res.render('pages/admin', {
       pageTitle: 'Add Product',
       path: '/admin',
       prods: products,
-      isAuth: req.session.isLoggedIn
     });
   })
   .catch(err => {console.log(err);})
@@ -22,9 +18,6 @@ exports.getAddProduct = (req, res) => {
 
 
   exports.postAddProduct =(req, res) => {
-    if (!req.session.isLoggedIn){
-      return res.redirect('/auth')
-    }
     const title = req.body.title;
     const description = req.body.description;
     const price = req.body.price;
@@ -42,9 +35,6 @@ exports.getAddProduct = (req, res) => {
   };
 
   exports.getEdit = (req, res) =>{
-    if (!req.session.isLoggedIn){
-      return res.redirect('/auth')
-    }
     let title = "";
     let price = 0;
     let description = "";
@@ -69,16 +59,12 @@ exports.getAddProduct = (req, res) => {
                 itemI: imgUrl,
                 ID: id,
                 TAG: tag,
-                isAuth: req.session.isLoggedIn
             });
         })
         .catch(err => console.log(err));
   };
 
   exports.postEdit = (req, res) => {
-    if (!req.session.isLoggedIn){
-      return res.redirect('/auth')
-    }
     const prodId = req.body.productId;
     const updatedTitle = req.body.title;
     const updatedPrice = req.body.price;
@@ -102,9 +88,6 @@ exports.getAddProduct = (req, res) => {
   };
   
   exports.postDeleteProduct = (req, res) => {
-    if (!req.session.isLoggedIn){
-      return res.redirect('/auth')
-    }
     const prodId = req.body.deleteId
     Product.findByIdAndRemove(prodId)
       .then(() => {

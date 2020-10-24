@@ -17,8 +17,10 @@
 
         <% if (isAuth){ %> 
         <li><a href="./admin">Admin</a></li>
-        <li><a href="">Cart</a></li>
+        <li><a href="./shop/cart">Cart</a></li>
+        <li><a href="./shop/orders">Orders</a></li>
        <form action="auth/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
          <button type="submit">Logout</button>
        </form>
         <% } %> 

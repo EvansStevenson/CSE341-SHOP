@@ -17,8 +17,10 @@
 
     <% if (isAuth){ %> 
     <li><a class="active" href="../admin">Admin</a></li>
-    <li><a href="">Cart</a></li>
+    <li><a href="../shop/cart">Cart</a></li>
+    <li><a href="../shop/orders">Orders</a></li>
    <form action="auth/logout" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
      <button type="submit">Logout</button>
    </form>
     <% } %> 
@@ -26,6 +28,7 @@
       
       <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <form action="/admin/edit" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="text" placeholder="id" name="productId" value ="<%= ID%>" hidden>
             <input type="text" placeholder="Title" name="title" value="<%= itemT%>">
             <input type="text" placeholder="Discription" name="description" value="<%= itemD%>">
@@ -40,6 +43,7 @@
             <input type="submit">
         </form>
         <form action="/admin/delete" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="text" name="deleteId" value ="<%= ID%>" hidden>
           <button>Delete item</button>
         </form>

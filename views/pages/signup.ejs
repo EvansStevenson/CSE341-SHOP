@@ -8,17 +8,19 @@
 </head>
 <body>
     <ul>
-        <li><a href="./">Home</a></li>
-        <li><a href="./shop">Armory</a></li>
+        <li><a href="../">Home</a></li>
+        <li><a href="../shop">Armory</a></li>
     
         <% if (!isAuth){ %> 
         <li><a class="active" href="./auth">Sign In</a></li>
         <% } %> 
     
         <% if (isAuth){ %> 
-        <li><a href="./admin">Admin</a></li>
-        <li><a href="">Cart</a></li>
+        <li><a href="../admin">Admin</a></li>
+        <li><a href="../shop/cart">Cart</a></li>
+        <li><a href="../shop/orders">Orders</a></li>
        <form action="auth/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
          <button type="submit">Logout</button>
        </form>
         <% } %> 
@@ -26,6 +28,7 @@
       
       <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <form action="/auth/signup/submit" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="email">Email</label>
             <input type="email" name="email" id="email">
             <label for="password">Password</label>

@@ -12,6 +12,7 @@
       color: white;
     }
   </style>
+  <%- include('../includes/head.ejs')%>
 </head>
 
 <body>
@@ -40,7 +41,7 @@
     <form action="/admin/delete" method="POST">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <input type="text" name="deleteId" value="<%= ID%>" hidden>
-      <button>Delete item</button>
+      <button class="btn btn-danger">Delete item</button>
     </form>
     <% errorMessages.forEach(err => { %>
     <p style="color: red;">*<%= err.msg %> </p>

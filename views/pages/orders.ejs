@@ -12,6 +12,7 @@
           color: white;
         }
       </style>
+      <%- include('../includes/head.ejs')%>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
 
     <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <% orders.forEach (order => { %>
-        <div>
+        <div class="border border-info ml-2">
             <h1>Order number: <%= order._id %></h1>
             <% order.products.forEach (product => { %>
                 <p><%= product.productData.title %>(<%= product.quantity %> ) </p>

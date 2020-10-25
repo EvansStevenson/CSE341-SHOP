@@ -12,6 +12,7 @@
       color: white;
     }
   </style>
+  <%- include('../includes/head.ejs')%>
 </head>
 
 <body>
@@ -19,16 +20,18 @@
 
   <div style="margin-left:25%;padding:1px 16px;height:1000px;">
     <form action="/auth/login" method="POST">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <label for="email">Email</label>
-      <input type="email" name="email" id="email" value="<%= oldEmail %> ">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password">
-      <button type="submit">LogIn</button>
+      <div class="form-group mt-3">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label class="mb-3" for="email">Email</label>
+        <input type="email" name="email" id="email" value="<%= oldEmail %> "><br>
+        <label class="mb-3" for="password">Password</label>
+        <input type="password" name="password" id="password"><br>
+        <button class="btn-info btn" type="submit">LogIn</button><br>
     </form>
-    <a href="/auth/signup">Are you new? Sign up Here!</a>
+    <h6 class="mt-1"><a href="/auth/signup">Are you new? Sign up Here!</a></h6><br>
     <a href="/auth/reset">Forgot your password? Click here!</a>
     <p style="color: red;"><%= errorMessage %></p>
+  </div>
   </div>
 </body>
 

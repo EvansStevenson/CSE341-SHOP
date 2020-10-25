@@ -41,14 +41,6 @@ check('email').isEmail().withMessage("Please enter a valid email").custom((value
 }).normalizeEmail(),
 authController.postReset);
 router.get('/reset/:token', authController.getNewPassword);
-router.post('/newpassword',
-body('password').isLength({min: 5}).withMessage("Password must be at least 5 characters long").trim(),
-body('confirmPassword').trim().custom((value, {req}) => { //how is req pulled?
-    if (value !== req.body.password){
-        throw new Error('Passwords did not match');
-    }
-    return true;
- }),
- authController.postNewPassword);
+router.post('/newpassword', authController.postNewPassword);
 
 module.exports = router;

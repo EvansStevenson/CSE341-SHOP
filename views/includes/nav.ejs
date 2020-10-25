@@ -12,7 +12,7 @@
     <li><a class="orders"href="/shop/orders">Orders</a></li>
     <form action="auth/logout" method="POST">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit">Logout</button>
+        <button class="btn btn-danger mt-3" type="submit">Logout</button>
     </form>
     <% } %> 
 </ul>

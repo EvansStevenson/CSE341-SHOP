@@ -12,26 +12,69 @@
             color: white;
         }
     </style>
-
+<%- include('../includes/head.ejs')%>
 </head>
 
 <body>
     <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
 
-    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+    <div class="row" style="margin-left:25%;padding:1px 16px;height:1000px;">
         <% prods.forEach (prods => { %>
-        <a href="../shop/<%= prods._id %>" style="text-decoration: none;">
+        <% if (prods.tag === 'sword') { %>
+        <a class="col-sm-4 col-md-4 col-4 mt-3 border border-info " href="../shop/<%= prods._id %>" style="text-decoration: none;">
             <div>
-                <h1 class="display-4"><%= prods.title %></h1>
+                <h3><%= prods.title %></h3>
                 <img src="<%= prods.imgUrl %>" style='max-width: 150px'>
                 <p>$<%= prods.price %></p>
                 <% if (isAuth){ %>
                 <%- include('../includes/addToCart.ejs', {product: prods._id}) %>
                 <% } %>
-
             </div>
         </a>
+        <% } %>
         <% }) %>
+        <% prods.forEach (prods => { %>
+            <% if (prods.tag === 'bow') { %>
+            <a class="col-sm-4 col-md-4 col-4 mt-3 border border-info" href="../shop/<%= prods._id %>" style="text-decoration: none;">
+                <div>
+                    <h3><%= prods.title %></h3>
+                    <img src="<%= prods.imgUrl %>" style='max-width: 150px'>
+                    <p>$<%= prods.price %></p>
+                    <% if (isAuth){ %>
+                    <%- include('../includes/addToCart.ejs', {product: prods._id}) %>
+                    <% } %>
+                </div>
+            </a>
+            <% } %>
+            <% }) %>
+            <% prods.forEach (prods => { %>
+                <% if (prods.tag === 'shield') { %>
+                <a class="col-sm-4 col-md-4 col-4 mt-3 border border-info " href="../shop/<%= prods._id %>" style="text-decoration: none;">
+                    <div>
+                        <h3><%= prods.title %></h3>
+                        <img src="<%= prods.imgUrl %>" style='max-width: 150px'>
+                        <p>$<%= prods.price %></p>
+                        <% if (isAuth){ %>
+                        <%- include('../includes/addToCart.ejs', {product: prods._id}) %>
+                        <% } %>
+                    </div>
+                </a>
+                <% } %>
+                <% }) %>
+                <% prods.forEach (prods => { %>
+                    <% if (prods.tag === 'armor') { %>
+                    <a class="col-sm-4 col-md-4 col-4 mt-3 border border-info " href="../shop/<%= prods._id %>" style="text-decoration: none;">
+                        <div>
+                            <h3><%= prods.title %></h3>
+                            <img src="<%= prods.imgUrl %>" style='max-width: 150px'>
+                            <p>$<%= prods.price %></p>
+                            <% if (isAuth){ %>
+                            <%- include('../includes/addToCart.ejs', {product: prods._id}) %>
+                            <% } %>
+                        </div>
+                    </a>
+                    <% } %>
+                    <% }) %>
     </div>
 
 </body>

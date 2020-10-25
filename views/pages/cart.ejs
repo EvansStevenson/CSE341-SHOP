@@ -11,6 +11,7 @@
           color: white;
         }
       </style>
+      <%- include('../includes/head.ejs')%>
 </head>
 <body>
     <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
@@ -19,15 +20,14 @@
         <h1>Your Cart</h1>
         <% cartItems.forEach (cartItems => { %>
         <a href="../shop/<%= cartItems.productId._id %>" style="text-decoration: none;">
-            <div>
-                
+            <div class="border border-info ml-2">
                 <h1><%= cartItems.productId.title %></h1>
                 <img src="<%= cartItems.productId.imgUrl %>" style='max-width: 150px'>
                 <p>$<%= cartItems.productId.price %></p>
                 <p>Quantity: <%= cartItems.quantity %></p>
                 <form action="/shop/cart/delete" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button class="btn" type="submit">Remove from Cart</button>
+                    <button class="btn btn-warning" type="submit">Remove from Cart</button>
                     <input type="hidden" name="productId" value="<%= cartItems.productId._id %>">
                 </form>
             </div>
@@ -35,7 +35,7 @@
         <% }) %>
         <form action="/shop/cart/order" method="post">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Order Now</button>
+            <button class="btn btn-info ml-2 mt-5" type="submit">Order Now</button>
         </form>
     </div>
     

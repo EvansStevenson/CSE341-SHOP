@@ -4,7 +4,7 @@ const path = require('path');
 const PORT = process.env.PORT || 5000
 const app = express();
 const routes = require('./routes')
-const errorController = require('./controllers/404');
+const errorController = require('./controllers/errorPage');
 const mongoose = require('mongoose');
 const session = require("express-session");
 const mongodbStore = require('connect-mongodb-session')(session);
@@ -17,7 +17,6 @@ const store = new mongodbStore({
 });
 const csrf = require('csurf');
 const csrfProtection = csrf();
-const flash = require('connect-flash');
 
 //cennect to heroku
 const corsOptions = {
@@ -35,9 +34,8 @@ const options = {
 };
 const MONGODB_URL = process.env.MONGODB_URL || mongodbURI;
 
-app.use
 app.use(bodyParser.urlencoded({ extended: false })); // For parsing the body of a POST
-app.use(session({secret:'my secret', resave: false, saveUninitialized: false, store: store}));
+app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false, store: store }));
 app.use(csrfProtection);
 app.use((req, res, next) => {
   res.locals.isAuth = req.session.isLoggedIn;
@@ -45,18 +43,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(flash());
-
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
   User.findById(req.session.user._id)
-  .then(user => {
-   req.user = user;
-   next();
-  })
-  .catch(err => console.log(err));
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/500');
+    });
 });
 
 
@@ -66,7 +65,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/', routes);
+app.get('/500', errorController.get500);
 app.use(errorController.get404);
+
 
 mongoose
   .connect(MONGODB_URL, options)
@@ -75,5 +76,6 @@ mongoose
   })
   .catch(err => {
     console.log(err);
+    res.redirect('/500');
   });
 

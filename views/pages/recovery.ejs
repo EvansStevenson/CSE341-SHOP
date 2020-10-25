@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <style>
+      li a.auth {
+        background-color: rgb(74, 74, 211);
+        color: white;
+      }
+    </style>
+</head>
+<body>
+  <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
+      
+      <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+        <form action="/auth/newpassword" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="userId" value="<%= userId %>">
+          <input type="hidden" name="passwordToken" value="<%= passwordToken %>">
+            <label for="password">New Password</label>
+            <input class="<%= errorMessages.find(e => e.param === 'password') ? 'invalid' : '' %>" type="password" name="password" id="password">
+            <label for="password">Confirm Password</label>
+            <input class="<%= errorMessages.find(e => e.param === 'confirmPassword') ? 'invalid' : '' %>" type="password" name="confirmPassword" id="confirmPassword">
+            <button type="submit">Reset Password</button>
+        </form>
+     </div>
+</body>
+</html>

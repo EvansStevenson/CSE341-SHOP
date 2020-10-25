@@ -6,27 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders</title>
     <link rel="stylesheet" href="/css/home.css">
+    <style>
+        li a.orders {
+          background-color: rgb(74, 74, 211);
+          color: white;
+        }
+      </style>
 </head>
 
 <body>
-    <ul>
-        <li><a href="../">Home</a></li>
-        <li><a href="../shop">Armory</a></li>
-
-        <% if (!isAuth){ %>
-        <li><a href="../auth">Sign In</a></li>
-        <% } %>
-
-        <% if (isAuth){ %>
-        <li><a href="../admin">Admin</a></li>
-        <li><a href="../shop/cart">Cart</a></li>
-        <li><a class="active" href="./shop/orders">Orders</a></li>
-        <form action="../auth/logout" method="POST">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button type="submit">Logout</button>
-        </form>
-        <% } %>
-    </ul>
+    <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
 
     <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <% orders.forEach (order => { %>

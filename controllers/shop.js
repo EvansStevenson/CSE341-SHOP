@@ -10,7 +10,10 @@ exports.getProducts = (req, res) => {
                 prods: products,
             });
         })
-        .catch(err => { console.log(err); })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        })
 };
 
 exports.getInfo = (req, res) => {
@@ -37,7 +40,10 @@ exports.getInfo = (req, res) => {
                 ID: id,
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        });
 }
 
 exports.getCart = (req, res) => {
@@ -65,21 +71,25 @@ exports.postCart = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
+            res.redirect('/500');
         })
 };
 
-exports.postCartDelete = (req, res) =>{
+exports.postCartDelete = (req, res) => {
     const prodId = req.body.productId;
     req.user.removeFromCart(prodId)
-    .then(result => {
-        res.redirect('/shop/cart');
-    })
-    .catch(err => {console.log(err);})
+        .then(result => {
+            res.redirect('/shop/cart');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        })
 }
 
 
 exports.getOrder = (req, res) => {
-    Order.find({'user.userId': req.user._id}).then(orders => {
+    Order.find({ 'user.userId': req.user._id }).then(orders => {
         console.log(orders);
         res.render('pages/orders', {
             path: '/shop/order',
@@ -91,29 +101,29 @@ exports.getOrder = (req, res) => {
 
 exports.postOrder = (req, res) => {
     req.user.populate('cart.items.productId')
-    .execPopulate()
-    .then(user => {
-        const products = user.cart.items.map(item => {
-            return {quantity: item.quantity, productData: { ...item.productId._doc} };
-        });
-        const order = new Order({
-            user: 
-            {
-                email: req.user.email,
-                userId: req.user
-            },
-            products: products
-        });
-        order.save();
-    })
-    .then(result => {
-        req.user.clearCart();
-    })
-    .then(() => { //needs to be in new .then so that the page does not load before the cart is cleared
-        res.redirect('/shop/orders');
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items.map(item => {
+                return { quantity: item.quantity, productData: { ...item.productId._doc } };
+            });
+            const order = new Order({
+                user:
+                {
+                    email: req.user.email,
+                    userId: req.user
+                },
+                products: products
+            });
+            order.save();
+        })
+        .then(result => {
+            req.user.clearCart();
+        })
+        .then(() => { //needs to be in new .then so that the page does not load before the cart is cleared
+            res.redirect('/shop/orders');
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 

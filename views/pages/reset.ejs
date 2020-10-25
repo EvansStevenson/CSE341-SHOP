@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Reset</title>
   <link rel="stylesheet" href="/css/home.css">
   <style>
-    li a.home {
+    li a.auth {
       background-color: rgb(74, 74, 211);
       color: white;
     }
@@ -18,13 +18,15 @@
   <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
 
   <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-    <h1>Hyrule Armory</h1>
-    <a href=""><img src="/img/sword.png" width="auto" height="200"></a>
-    <a href=""><img src="/img/bow.png" width="auto" height="200"></a>
-    <a href=""><img src="/img/shield.png" width="auto" height="200"></a>
-    <a href=""><img src="/img/armor.png" width="auto" height="200"></a>
-
-  </div>
+    <form action="/auth/reset" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email">
+      <button type="submit">Reset Password</button>
+  </form>
+  <% errorMessages.forEach(err => { %>
+    <p style="color: red;">*<%= err.msg %> </p>
+  <% }) %>
 </body>
- 
+
 </html>

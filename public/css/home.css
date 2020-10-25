@@ -1,3 +1,4 @@
+/* ref from w3schools */
 body {
   margin: 0;
 }
@@ -20,12 +21,12 @@ li a {
   text-decoration: none;
 }
 
-li a.active {
-  background-color: rgb(74, 74, 211);
-  color: white;
-}
-
 li a:hover:not(.active) {
   background-color: #555;
   color: white;
+}
+
+.invalid{
+  border: 2px solid red;
+  border-radius: 4px;
 }

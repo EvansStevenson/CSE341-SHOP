@@ -6,43 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     <link rel="stylesheet" href="/css/home.css">
+    <style>
+        li a.admin {
+          background-color: rgb(74, 74, 211);
+          color: white;
+        }
+      </style>
 </head>
 
 <body>
-    <ul>
-        <li><a href="./">Home</a></li>
-        <li><a href="./shop">Armory</a></li>
-
-        <% if (!isAuth){ %>
-        <li><a href="./auth">Sign In</a></li>
-        <% } %>
-
-        <% if (isAuth){ %>
-        <li><a class="active" href="./admin">Admin</a></li>
-        <li><a href="./shop/cart">Cart</a></li>
-        <li><a href="./shop/orders">Orders</a></li>
-        <form action="auth/logout" method="POST">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button type="submit">Logout</button>
-        </form>
-        <% } %>
-    </ul>
+    <%- include('../includes/nav.ejs', {active: "active"}, {notActive: ""}) %>
 
     <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <form action="/admin/submit" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <input type="text" placeholder="Title" name="title">
-            <input type="text" placeholder="Discription" name="description">
-            <input type="text" step="0.01" placeholder="pirce" name="price">
+
+            <input class="<%= errorMessages.find(e => e.param === 'title') ? 'invalid' : '' %>" type="text" placeholder="Title" name="title" value="<%= oldImput.title %>">
+
+            <input class="<%= errorMessages.find(e => e.param === 'description') ? 'invalid' : '' %>"type="text" placeholder="Description" name="description" value="<%= oldImput.description %>">
+
+            <input class="<%= errorMessages.find(e => e.param === 'price') ? 'invalid' : '' %>"type="text" step="0.01" placeholder="pirce" name="price" value="<%= oldImput.price %>">
+
             <select name="tag">
                 <option value="sword">Sword</option>
                 <option value="bow">Bow</option>
                 <option value="shield">Shield</option>
                 <option value="armor">Armor</option>
             </select>
-            <input type="text" placeholder="imgUrl" name="imgUrl">
+
+            <input class="<%= errorMessages.find(e => e.param === 'imgUrl') ? 'invalid' : '' %>"type="text" placeholder="imgUrl" name="imgUrl" value="<%= oldImput.imgUrl %>">
+
             <input type="submit">
         </form>
+        <% errorMessages.forEach(err => { %>
+            <p style="color: red;">*<%= err.msg %> </p>
+        <% }) %>  
 
         <% prods.forEach (prods => { %>
         <a href="../admin/<%= prods._id %>" style="text-decoration: none;">

@@ -1,0 +1,18 @@
+<ul>
+    <li><a class="home" href="/">Home</a></li>
+    <li><a class="shop" href="/shop">Armory</a></li>
+
+    <% if (!isAuth){ %>
+    <li><a class="auth" href="/auth">Sign In</a></li>
+    <% } %>
+
+    <% if (isAuth){ %>
+    <li><a class="admin" href="/admin">Admin</a></li>
+    <li><a class="cart" href="/shop/cart">Cart</a></li>
+    <li><a class="orders"href="/shop/orders">Orders</a></li>
+    <form action="auth/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Logout</button>
+    </form>
+    <% } %> 
+</ul>
